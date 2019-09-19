@@ -4,17 +4,6 @@ var multer = require('multer');
 var {PythonShell} = require('python-shell');
 
 var MongoClient = require('mongodb').MongoClient;
-var promise = function(db){
-	return new Promise(function(resolve,reject){
-		var q = {'id':"ssu1"};
-		console.log('1');
-		db.collection('user').find(q).toArray(function(err,result){
-			if(err) throw err;
-			console.log(result.length);
-			resolve();
-		})
-	})
-}
 
 
 /* GET home page. */
