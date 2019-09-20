@@ -42,7 +42,7 @@ var insert_id = function(msg) {
 
 
 /* GET home page. */
-router.psot('/', function(req, res) {
+router.post('/', function(req, res) {
 	let id = req.id;
 	let pw = req.pw;
 	MongoClient.connect('mongodb://localhost:27017/test',{useNewUrlParser:true,useUnifiedTopology: true},function(err,db){
