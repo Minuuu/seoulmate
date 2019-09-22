@@ -8,16 +8,16 @@ router.post('/', function(req, res) {
 	MongoClient.connect('mongodb://localhost:27017/test',{useNewUrlParser:true,useUnifiedTopology: true},function(err,db){
 		if(err) throw err;
 		mydb = db.db('test');
-		var q = {'id':id,'pw':pw};
-		mydb.collection('user').find(q).toArray(function(err,res){
+		var q = {'id':id};
+		mydb.collection('user').find(q).toArray(function(err,result){
 			if(err) throw err;
-			console.log(docs);
+			
 			if(result.length==0)
-				res.json({"status":500,"msg":"ERROR ID"});
-			if(result[0].pw == data.pw)
-				res.json({"status":500, "msg":"OK"});
+				res.json({"status":200,"msg":"ERROR ID"});
+			if(result[0].pw == pw)
+				res.json({"status":200, "msg":"OK"});
 			else
-				res.json({"status":500, "msg":"ERROW PW"});
+				res.json({"status":200, "msg":"ERROW PW"});
 		})
 
 	});

@@ -13,9 +13,9 @@ router.get('/', function(req, res) {
 			if(err) throw err;
 			console.log(res);
 			if(result.length==0)
-				res.json({"status":500,"msg":"NOT_THING"});
+				res.json({"status":200,"msg":"NOT_THING"});
 			else
-				res.json({"status":500, "msg":"OK", "result":res});
+				res.json({"status":200, "msg":"OK", "result":res});
 		})
 
 	});
