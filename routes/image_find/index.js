@@ -69,7 +69,7 @@ router.post('/', upload.single('photo'), function(req, res) {
             });
             var msg = {
                 title: `${results[0]} 검색 결과`,
-                results: response.json.results,
+                statusText: response.json.results,
                 query: results[0]
             }
             console.log(msg);
