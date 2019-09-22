@@ -67,11 +67,21 @@ router.post('/', upload.single('photo'), function(req, res) {
                 query: results[0],
                 language: 'ko',
             });
+            var msg = {
+                title: `${results[0]} 검색 결과`,
+                results: response.json.results,
+                query: results[0]
+            }
+            console.log(msg);
+            //return res.send
+            return res.send("\'" + JSON.stringify(msg) + "\'");
+            /*
             return res.json({
                     title: `${results[0]} 검색 결과`,
                     results: response.json.results,
                     query: req.query.place,
                 });
+            */
         } catch (error) {
             console.error(error);
             res.json({"status":500,"msg":"ERROR"});
