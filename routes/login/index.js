@@ -11,9 +11,10 @@ router.post('/', function(req, res) {
 		var q = {'id':id};
 		mydb.collection('user').find(q).toArray(function(err,result){
 			if(err) throw err;
-			
+			console.log(result);
+
 			if(result.length==0)
-				res.json({"status":200,"msg":"ERROR ID"});
+				return res.json({"status":200,"msg":"ERROR ID"});
 			if(result[0].pw == pw)
 				res.json({"status":200, "msg":"OK"});
 			else

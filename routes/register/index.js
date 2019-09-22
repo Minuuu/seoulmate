@@ -29,14 +29,15 @@ var insert_id = function(msg) {
         db.collection('user').insertOne(data, function(err, inserted) {
             if (err) throw err;
             console.log("Succecssful insert: ", JSON.stringify(inserted));
+            resolve();
         })
     })
 }
 
 /* GET home page. */
 router.post('/', function(req, res) {
-	let id = req.id;
-	let pw = req.pw;
+	let id = req.body.id;
+	let pw = req.body.pw;
 	
 	MongoClient.connect('mongodb://localhost:27017/test',{useNewUrlParser:true,useUnifiedTopology: true},function(err,db){
 		if(err) throw err;

@@ -67,21 +67,25 @@ router.get('/search', async(req, res, next) => {
 });
 
 router.get('/', function(req, res) {
-    /*
+    let id = req.query.id;
+    let start = req.query.start;
+    let end = req.query.end;
+    
     MongoClient.connect('mongodb://localhost:27017/test',{useNewUrlParser:true,useUnifiedTopology: true},function(err,db){
         if(err) throw err;
         mydb = db.db('test');
          var q = {
                 'id': req.query.id,
-                'place': req.query.place
+                'start':req.query.start,
+                'end': req.query.end
         };
-        mydb.collection('recent_search').insertOne(q).toArray(function(err,res){
-            if(err) throw err;
-            console.log(res);
-        })
+        mydb.collection('recent_search').insertOne(q, function(err, inserted) {
+            if (err) throw err;
+            console.log("Succecssful insert: ", JSON.stringify(inserted));
+        });
 
     });
-    */
+    
 	let url = "https://api.odsay.com/v1/api/searchPubTransPathR?"
 	let lang = req.query.lang;
 	let sx = req.query.SX;
@@ -105,6 +109,10 @@ router.get('/', function(req, res) {
 		if(err) throw err;
 		//console.log(res);
 		var data = JSON.parse(body);
+        console.log(data);
+        if(data.result.path==undefined){
+            return res.json({"status":500,"msg":"ERROR"});
+        }
 		res.json(data.result.path);
 		console.log('body',data.result.path);
 	});
