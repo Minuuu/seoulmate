@@ -15,9 +15,9 @@ const googleMapsClient = googleMaps.createClient({
 
 router.get('/autocomplete', (req, res, next) => {
 	console.log(req.query);
-	
+	let place = req.query.place;
     googleMapsClient.placesQueryAutoComplete({
-        input: req.query.place,
+        input: place,
         language: 'ko',
     }, (err, response) => {
         if (err) {
