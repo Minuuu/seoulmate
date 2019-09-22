@@ -5,6 +5,8 @@ var register = require('./register/index');
 var image_find = require('./image_find/index');
 var find_place = require('./find_place/index');
 var recent_search = require('./recent_search/index');
+var bus_info = require('./bus_info/index');
+var subway_info = require('./subway_info/index');
 
 
 router.use('/login',login);
@@ -12,6 +14,8 @@ router.use('/register',register);
 router.use('/image_find',image_find);
 router.use('/find_place',find_place);
 router.use('/recent_search',recent_search);
+router.use('/bus_info',bus_info);
+router.use('/subway_info',subway_info);
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
