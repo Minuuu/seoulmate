@@ -1,30 +1,75 @@
 var express = require('express');
 var router = express.Router();
 var multer = require('multer');
+var upload = multer({ dest: 'uploads/' })
 var {PythonShell} = require('python-shell');
-
 var MongoClient = require('mongodb').MongoClient;
 
+const util = require('util');
+const allkey = require('../../config/api_key.json')
+const apiKey = allkey.key;
+const mapKey = allkey.mapKey;
+const googleMaps = require('@google/maps');
+const googleMapsClient = googleMaps.createClient({
+    key:mapKey,
+});
 
 /* GET home page. */
-router.post('/', function(req, res) {
-	let image = req.body.image;
+router.get('/', function(req, res) {
+   // let image = req.body.image;
 
-	let options = {
-		mode:'text',
-		args:[image]
-	}
-
-    PythonShell.run('deep.py', options, function(err, results) {
+    let options = {
+        mode:'text',
+        args:['/Users/minwoo/dev/2019project/mate/landmark_recognition/data/images/63building0.jpg']
+    }
+    //var path = window.location.pathname;
+    PythonShell.run('/Users/minwoo/dev/2019project/mate/landmark_recognition/landmark_recognition.py', options, function(err, results) {
 
         if (err) throw err;
 
 
         console.log('results: ', results);
-        /*
-        API 정해서 호출하면됨.
-        */
+      
 
+    });
+    
+});
+//router.post('/', upload.single('image'), function(req, res) {
+router.post('/', function(req, res) {
+    //console.log(req.file);
+
+    let options = {
+        mode: 'text',
+        args: ['/Users/minwoo/dev/2019project/mate/landmark_recognition/data/images/63building0.jpg']
+    }
+        //var path = window.location.pathname;
+    PythonShell.run('/Users/minwoo/dev/2019project/mate/landmark_recognition/landmark_recognition.py', options, async function(err, results) {
+
+        if (err) throw err;
+        console.log('results: ', results);
+        const googlePlaces = util.promisify(googleMapsClient.places);
+        try {
+
+            const response = await googlePlaces({
+                query: results[0],
+                language: 'ko',
+            });
+            res.json({
+                    title: `${results[0]} 검색 결과`,
+                    results: response.json.results,
+                    query: req.query.place,
+                })
+                /*
+                res.render('result', {
+                    title: `${req.query.place} 검색 결과`,
+                    results: response.json.results,
+                    query: req.query.place,
+                });
+                */
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
     });
 });
 
