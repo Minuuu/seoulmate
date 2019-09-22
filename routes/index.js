@@ -11,7 +11,8 @@ router.use('/login',login);
 router.use('/register',register);
 router.use('/image_find',image_find);
 router.use('/find_place',find_place);
-router.use('recent_search',recent_search);
+router.use('/recent_search',recent_search);
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
 	res.send('Router');

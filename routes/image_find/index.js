@@ -14,16 +14,17 @@ const googleMapsClient = googleMaps.createClient({
     key:mapKey,
 });
 
+let dir_name = '/Users/minwoo/dev/2019project/mate/landmark_recognition/'
 /* GET home page. */
 router.get('/', function(req, res) {
    // let image = req.body.image;
 
     let options = {
         mode:'text',
-        args:['/Users/minwoo/dev/2019project/mate/landmark_recognition/data/images/63building0.jpg']
+        args:['data/images/63building0.jpg']
     }
     //var path = window.location.pathname;
-    PythonShell.run('/Users/minwoo/dev/2019project/mate/landmark_recognition/landmark_recognition.py', options, function(err, results) {
+    PythonShell.run(dir_name+'landmark_recognition.py', options, function(err, results) {
 
         if (err) throw err;
 
@@ -40,10 +41,10 @@ router.post('/', function(req, res) {
 
     let options = {
         mode: 'text',
-        args: ['/Users/minwoo/dev/2019project/mate/landmark_recognition/data/images/63building0.jpg']
+        args: [dir_name+'data/images/63building0.jpg']
     }
-        //var path = window.location.pathname;
-    PythonShell.run('/Users/minwoo/dev/2019project/mate/landmark_recognition/landmark_recognition.py', options, async function(err, results) {
+    console.log(dir_name+'data/images/63building0.jpg');
+    PythonShell.run(dir_name+'landmark_recognition.py', options, async function(err, results) {
 
         if (err) throw err;
         console.log('results: ', results);
@@ -54,20 +55,14 @@ router.post('/', function(req, res) {
                 query: results[0],
                 language: 'ko',
             });
-            res.json({
+            return res.json({
                     title: `${results[0]} 검색 결과`,
                     results: response.json.results,
                     query: req.query.place,
-                })
-                /*
-                res.render('result', {
-                    title: `${req.query.place} 검색 결과`,
-                    results: response.json.results,
-                    query: req.query.place,
                 });
-                */
         } catch (error) {
             console.error(error);
+            res.json({"status":500,"msg":"ERROR"});
             throw error;
         }
     });
